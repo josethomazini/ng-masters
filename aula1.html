@@ -1,7 +1,27 @@
-Usuario <input type="text" id="user">
-Repositório <input type="text" id="reponame">
-<button>Vai buscar as issues</button>
+<html>
 
-<table id="issuestable">
-    <tr><th>Numero</th><th>Titulo</th>
-</table>
+    <head>
+        <script>
+            function vaibuscarasissues(){
+                function GithubRepo(username, reponame){
+                    //seu codigo aqui...
+                }
+
+                //mais um pouco de codigo aqui....
+
+                var le_repo = GithubRepo(username, reponame);
+                le_repo.busca_issues();
+                le_repo.popula_tabela("#issuestable");
+            }
+        </script>
+    </head>
+
+    <body>
+        Usuario <input type="text" id="user">
+        Repositório <input type="text" id="reponame">
+        <button>Vai buscar as issues</button>
+        <table id="issuestable">
+            <tr><th>Numero</th><th>Titulo</th>
+        </table>
+    </body>
+</html
