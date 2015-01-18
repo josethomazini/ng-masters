@@ -18,7 +18,7 @@
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
                     var result; // closure
 
-                    var buscador = {
+                    return {
                         'busca_issues': function() {
                             return $.get(the_url).success(function(data){
                                 if (typeof data == 'string'){
@@ -31,10 +31,7 @@
                             console.log('ok....');
                         }
                     }
-                    return buscador;
                 }
-
-                //mais um pouco de codigo aqui....
 
                 var le_repo = GithubRepo(username, reponame);
                 le_repo.busca_issues().success(le_repo.popula_tabela("#issuestable"));
