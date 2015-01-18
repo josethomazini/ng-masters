@@ -25,18 +25,18 @@
                                     data = JSON.parse(data);
                                 }
                                 result = data;
-                                console.log(result);
                             });
                         },
                         'popula_tabela': function(the_id) {
-                            var the_table = $("#issuestable").html;
+                            var table_data = $("#issuestable").html;
                             
                             for(index in result) {
-                                the_table += "<tr>"
-                                the_table += "<td>" + result[i].number + "</td>"
-                                the_table += "<td>" + result[i].title + "</td>"
-                                the_table += "</tr>"
+                                table_data += "<tr>"
+                                table_data += "<td>" + result[i].number + "</td>"
+                                table_data += "<td>" + result[i].title + "</td>"
+                                table_data += "</tr>"
                             }
+                            var table_data = $("#issuestable").html;(table_data)
                         }
                     }
                 }
