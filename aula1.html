@@ -28,15 +28,14 @@
                             });
                         },
                         'popula_tabela': function(the_id) {
-                            var table_data = $("#issuestable").html;
-                            
                             for(index in result) {
-                                table_data += "<tr>"
-                                table_data += "<td>" + result[i].["number"] + "</td>"
-                                table_data += "<td>" + result[i].["title"] + "</td>"
-                                table_data += "</tr>"
+                                $("#issuestable").append(
+                                    table_data += "<tr>"
+                                    table_data += "<td>" + result[i].["number"] + "</td>"
+                                    table_data += "<td>" + result[i].["title"] + "</td>"
+                                    table_data += "</tr>"
+                                );
                             }
-                            $("#issuestable").html(table_data);
                         }
                     }
                 }
