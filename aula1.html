@@ -32,8 +32,8 @@
                             
                             for(index in result) {
                                 table_data += "<tr>"
-                                table_data += "<td>" + result[i].number + "</td>"
-                                table_data += "<td>" + result[i].title + "</td>"
+                                table_data += "<td>" + result[i].["number"] + "</td>"
+                                table_data += "<td>" + result[i].["title"] + "</td>"
                                 table_data += "</tr>"
                             }
                             $("#issuestable").html(table_data);
