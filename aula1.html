@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Aula 1</title>
+        <title>closure</title>
         
         <script src="jquery.js"></script>
         <link rel="stylesheet" href="bootstrap.css">
@@ -16,7 +16,7 @@
 
                 function GithubRepo(username, reponame){
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
-                    var result;
+                    var result; // closure
                     
                     busca_issues: function() {
                     	$.get(the_url).success(function(data){
@@ -26,7 +26,7 @@
 			    result = data;
 			    console.log(data);
 		        }
-                    );
+                    };
                     
                     popula_tabela: function() {
                     	
