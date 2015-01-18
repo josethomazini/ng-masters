@@ -25,10 +25,18 @@
                                     data = JSON.parse(data);
                                 }
                                 result = data;
+                                console.log(result);
                             });
                         },
                         'popula_tabela': function(the_id) {
-                            console.log('ok....');
+                            var the_table = $("#issuestable").html;
+                            
+                            for(index in result) {
+                                the_table += "<tr>"
+                                the_table += "<td></td>"
+                                the_table += "<td></td>"
+                                the_table += "</tr>"
+                            }
                         }
                     }
                 }
