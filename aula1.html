@@ -12,7 +12,15 @@
         <script>
             function vaibuscarasissues(){
                 function GithubRepo(username, reponame){
-                    //seu codigo aqui...
+                    var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
+                    $.get(the_url).success(function(todos){
+			            if (typeof todos == 'string'){
+				            todos = JSON.parse(todos);
+			            }
+			            for(var i=0; i < todos.length; i++){
+				            console.log(todos[i]);
+			            }
+		            });
                 }
 
                 //mais um pouco de codigo aqui....
