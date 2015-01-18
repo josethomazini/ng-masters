@@ -4,32 +4,33 @@
     <head>
         <meta charset="utf-8">
         <title>closure</title>
-        
+
         <script src="jquery.js"></script>
         <link rel="stylesheet" href="bootstrap.css">
         <script src="bootstrap.js"></script>
-        
+
         <script>
             function vaibuscarasissues(){
-            	var username = $("#username").val();
-            	var reponame = $("#reponame").val();
+                var username = $("#username").val();
+                var reponame = $("#reponame").val();
 
                 function GithubRepo(username, reponame){
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
                     var result; // closure
-                    
-                    busca_issues: function() {
-                    	$.get(the_url).success(function(data){
-			    if (typeof data == 'string'){
-			        data = JSON.parse(data);
-			    }
-			    result = data;
-			    console.log(data);
-		        }
-                    };
-                    
-                    popula_tabela: function() {
-                    	
+
+                    var methods = {
+                        'busca_issues': function() {
+                    	    $.get(the_url).success(function(data){
+                                if (typeof data == 'string'){
+                                    data = JSON.parse(data);
+                                }
+                                result = data;
+                                console.log(data);
+                            }
+                        },
+                        'popula_tabela': function() {
+                             console.log("data.............");
+                        }
                     }
                 }
 
