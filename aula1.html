@@ -11,6 +11,9 @@
         
         <script>
             function vaibuscarasissues(){
+            	var username = $("#username").value();
+            	var reponame = $("#reponame").value();
+
                 function GithubRepo(username, reponame){
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
                     $.get(the_url).success(function(todos){
@@ -33,7 +36,7 @@
     </head>
 
     <body>
-        Usuario <input type="text" id="user" value="freedomsponsors">
+        Usuario <input type="text" id="username" value="freedomsponsors">
         Repositório <input type="text" id="reponame" value="www.freedomsponsors.org">
         <button onclick="vaibuscarasissues()">Vai buscar as issues</button>
         <table class="table table-striped table-bordered table-condensed" id="issuestable">
