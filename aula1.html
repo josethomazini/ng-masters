@@ -45,7 +45,11 @@
                 }
 
                 var le_repo = GithubRepo(username, reponame);
-                le_repo.busca_issues().success(le_repo.popula_tabela("#issuestable"));
+                le_repo.busca_issues().success(
+                    function(){
+                        le_repo.popula_tabela("#issuestable")
+                    }
+                );
             }
         </script>
     </head>
