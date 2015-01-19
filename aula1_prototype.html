@@ -17,36 +17,32 @@
                 function GithubRepo(username, reponame){
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
                     var result; // closure
-                    
-                    var busca = {
-                        'busca_issues': function() {
-                            return $.get(the_url).success(function(data){
-                                if (typeof data == 'string'){
-                                    data = JSON.parse(data);
-                                }
-                                result = data;
-                            });
-                        },
-                        'popula_tabela': function(the_id) {
-                            
-                            $("#issuestable").find("tr").remove();
-                            
-                            $(the_id).append(
-                                "<tr><th>Numero</th><th>Titulo</th>"
-                            );
-
-                            for(index in result) {
-                                $(the_id).append(
-                                    "<tr>" +
-                                    "<td>" + result[index]["number"] + "</td>" +
-                                    "<td>" + result[index]["title"] + "</td>" +
-                                    "</tr>"
-                                );
-                            }
+                }
+                
+                GithubRepo.prototype busca_issues = function() {
+                    var self_ref = this.result;
+                    return $.get(the_url).success(function(data){
+                        if (typeof data == 'string'){
+                            data = JSON.parse(data);
                         }
+                        self.self_ref = data;
+                    });
+                }
+                GithubRepo.prototype.popula_tabela = function(the_id) {
+                    $("#issuestable").find("tr").remove();
+                            
+                    $(the_id).append(
+                        "<tr><th>Numero</th><th>Titulo</th>"
+                    );
+
+                    for(index in result) {
+                        $(the_id).append(
+                            "<tr>" +
+                            "<td>" + this.result[index]["number"] + "</td>" +
+                            "<td>" + this.result[index]["title"] + "</td>" +
+                            "</tr>"
+                        );
                     }
-                    
-                    return busca;
                 }
 
                 var le_repo = GithubRepo(username, reponame);
