@@ -29,9 +29,7 @@
                         },
                         'popula_tabela': function(the_id) {
                             
-                            for(var index = 1; index < $("#issuestable").find('tr'); index++) {
-                                $("#issuestable").find("tr").remove();
-                            }
+                            $("#issuestable").find("tr").remove();
                             
                             $(the_id).append(
                                 "<tr><th>Numero</th><th>Titulo</th>"
