@@ -17,8 +17,8 @@
                 function GithubRepo(username, reponame){
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
                     var result; // closure
-
-                    return {
+                    
+                    busca = {
                         'busca_issues': function() {
                             return $.get(the_url).success(function(data){
                                 if (typeof data == 'string'){
@@ -40,6 +40,8 @@
                             }
                         }
                     }
+                    
+                    return busca;
                 }
 
                 var le_repo = GithubRepo(username, reponame);
