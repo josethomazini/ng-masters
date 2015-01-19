@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>closure</title>
+
+        <script src="jquery.js"></script>
+        <link rel="stylesheet" href="bootstrap.css">
+        <script src="bootstrap.js"></script>
+
+        <script>
+            function vaibuscarasissues(){
+                var username = $("#username").val();
+                var reponame = $("#reponame").val();
+
+                function GithubRepo(username, reponame){
+                    var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
+                    var result; // closure
+                    
+                    var busca = {
+                        'busca_issues': function() {
+                            return $.get(the_url).success(function(data){
+                                if (typeof data == 'string'){
+                                    data = JSON.parse(data);
+                                }
+                                result = data;
+                            });
+                        },
+                        'popula_tabela': function(the_id) {
+                            
+                            $("#issuestable").find("tr").remove();
+                            
+                            $(the_id).append(
+                                "<tr><th>Numero</th><th>Titulo</th>"
+                            );
+
+                            for(index in result) {
+                                $(the_id).append(
+                                    "<tr>" +
+                                    "<td>" + result[index]["number"] + "</td>" +
+                                    "<td>" + result[index]["title"] + "</td>" +
+                                    "</tr>"
+                                );
+                            }
+                        }
+                    }
+                    
+                    return busca;
+                }
+
+                var le_repo = GithubRepo(username, reponame);
+                le_repo.busca_issues().success(
+                    function(){
+                        le_repo.popula_tabela("#issuestable")
+                    }
+                );
+            }
+        </script>
+    </head>
+
+    <body>
+        Usuario <input type="text" id="username" value="freedomsponsors">
+        Repositório <input type="text" id="reponame" value="www.freedomsponsors.org">
+        <button onclick="vaibuscarasissues()">Vai buscar as issues</button>
+        <table class="table table-striped table-bordered table-condensed" id="issuestable"></table>
+    </body>
+</html>
