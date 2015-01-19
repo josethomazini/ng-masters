@@ -20,12 +20,12 @@
                 }
                 
                 GithubRepo.prototype.busca_issues = function() {
-                    var self_ref = this.result;
+                    this.self_ref = this.result;
                     return $.get(this.the_url).success(function(data){
                         if (typeof data == 'string'){
                             data = JSON.parse(data);
                         }
-                        self.self_ref = data;
+                        this.self_ref = data;
                     });
                 }
                 GithubRepo.prototype.popula_tabela = function(the_id) {
