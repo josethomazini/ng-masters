@@ -45,7 +45,7 @@
                     }
                 }
 
-                var le_repo = GithubRepo(username, reponame);
+                var le_repo = new GithubRepo(username, reponame);
                 le_repo.busca_issues().success(
                     function(){
                         le_repo.popula_tabela("#issuestable")
