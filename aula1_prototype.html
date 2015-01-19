@@ -20,27 +20,27 @@
                 }
                 
                 GithubRepo.prototype.busca_issues = function() {
-                    this.self_ref = this.result;
+                    var self_ref = this;
                     return $.get(this.the_url).success(function(data){
                         if (typeof data == 'string'){
                             data = JSON.parse(data);
                         }
-                        this.self_ref = data;
+                        self_ref.result = data;
                     });
                 }
                 GithubRepo.prototype.popula_tabela = function(the_id) {
-                    this.self_ref = this.result;
+                    var self_ref = this;
                     $("#issuestable").find("tr").remove();
                             
                     $(the_id).append(
                         "<tr><th>Numero</th><th>Titulo</th>"
                     );
 
-                    for(index in this.self_ref) {
+                    for(index in self_ref.result) {
                         $(the_id).append(
                             "<tr>" +
-                            "<td>" + this.self_ref[index]["number"] + "</td>" +
-                            "<td>" + this.self_ref[index]["title"] + "</td>" +
+                            "<td>" + self_ref.result[index]["number"] + "</td>" +
+                            "<td>" + self_ref.result[index]["title"] + "</td>" +
                             "</tr>"
                         );
                     }
