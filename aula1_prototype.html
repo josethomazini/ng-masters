@@ -19,7 +19,7 @@
                     this.result; // closure
                 }
                 
-                GithubRepo.prototype busca_issues = function() {
+                GithubRepo.prototype.busca_issues = function() {
                     var self_ref = this.result;
                     return $.get(the_url).success(function(data){
                         if (typeof data == 'string'){
