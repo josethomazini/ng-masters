@@ -29,17 +29,18 @@
                     });
                 }
                 GithubRepo.prototype.popula_tabela = function(the_id) {
+                    this.self_ref = this.result;
                     $("#issuestable").find("tr").remove();
                             
                     $(the_id).append(
                         "<tr><th>Numero</th><th>Titulo</th>"
                     );
 
-                    for(index in this.result) {
+                    for(index in this.self_ref) {
                         $(the_id).append(
                             "<tr>" +
-                            "<td>" + this.result[index]["number"] + "</td>" +
-                            "<td>" + this.result[index]["title"] + "</td>" +
+                            "<td>" + this.self_ref[index]["number"] + "</td>" +
+                            "<td>" + this.self_ref[index]["title"] + "</td>" +
                             "</tr>"
                         );
                     }
