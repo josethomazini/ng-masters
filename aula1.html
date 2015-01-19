@@ -28,8 +28,10 @@
                             });
                         },
                         'popula_tabela': function(the_id) {
-                            console.log("--------")
-                            console.log(result);
+                            for(var index = 1; index < $("#issuestable").find('tr').length; index++) {
+                                $("#issuestable").find("tr").remove();
+                            }
+
                             for(index in result) {
                                 $(the_id).append(
                                     "<tr>" +
