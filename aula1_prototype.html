@@ -16,7 +16,7 @@
 
                 function GithubRepo(username, reponame){
                     var the_url = "https://api.github.com/repos/" + username + "/" + reponame + "/issues";
-                    var result; // closure
+                    this.result; // closure
                 }
                 
                 GithubRepo.prototype busca_issues = function() {
@@ -27,7 +27,7 @@
                         }
                         self.self_ref = data;
                     });
-                }
+                };
                 GithubRepo.prototype.popula_tabela = function(the_id) {
                     $("#issuestable").find("tr").remove();
                             
@@ -43,7 +43,7 @@
                             "</tr>"
                         );
                     }
-                }
+                };
 
                 var le_repo = GithubRepo(username, reponame);
                 le_repo.busca_issues().success(
