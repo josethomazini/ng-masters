@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>AngulifeJS</title>
+        <script src="angular.js"></script>
+        <link rel="stylesheet" href="bootstrap.css">
+
+        <style type="text/css">
+            .vida {
+                background-color: yellow;
+            }
+            .vazio {
+                background-color: black;
+            }
+        </style>
+
+        <script>
+            var myapp = angular.module("myapp", []);
+            myapp.config(function($interpolateProvider){
+                $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
+            });
+
+            myapp.factory('AngulifeJS', function(){
+                var m = {
+                    linhas: 50,
+                    colunas: 50,
+                    passos: 0,
+                    automatico: false,
+                    dicas: false,
+                    velocidade: 1,
+                    the_array: []
+                };
+
+                m.makeArray = function() {
+                    m.the_array = [];
+                    for(i = 0; i < m.linhas; i++) {
+                        m.the_array[i] = [];
+                        for(j = 0; j < m.colunas; j++) {
+                            m.the_array[i][j] = false;
+                        }
+                    }
+                }
+
+                m.rowClass = function(b){
+                    if(b) return 'vida';
+                    return 'vazio';
+                }
+
+                m.toggle_boolean = function(linha, coluna){
+                    m.the_array[linha][coluna] = !m.the_array[linha][coluna];
+                }
+
+                m.recomeca = function(){
+                    m.makeArray();
+                    m.passos = 0;
+                    m.automatico = false;
+                }
+
+                m.passo = function(){
+                    m.passos += 1;
+
+                    var buffer = [];
+                    for(i = 0; i < m.linhas; i++) {
+                        buffer[i] = [];
+                        for(j = 0; j < m.colunas; j++) {
+                            buffer[i][j] = m.aplica_regra(i, j);
+                        }
+                    }
+
+                    m.the_array = buffer;
+                }
+
+                m.vai = function(){
+                    m.automatico = true;
+                }
+
+                m.para = function(){
+                    m.automatico = false;
+                }
+
+                m.mostra_dicas = function(){
+                    m.dicas = ! m.dicas;
+                }
+
+                m.get_total_vizinhos = function(linha, coluna) {
+                    var total = 0;
+
+                    // superior
+                    if(linha > 0 && m.the_array[linha-1][coluna]) total++;
+
+                    // inferior
+                    if(linha < m.linhas - 1 && m.the_array[linha+1][coluna]) total++;
+
+                    // esquerda
+                    if(coluna > 0 && m.the_array[linha][coluna-1]) total++;
+
+                    // direita
+                    if(coluna < m.colunas - 1 && m.the_array[linha][coluna+1]) total++;
+
+                    // superior direita
+                    if(linha > 0 && coluna < m.colunas - 1 && m.the_array[linha-1][coluna+1]) total++;
+
+                    // superior esquerda
+                    if(linha > 0 && coluna > 0 && m.the_array[linha-1][coluna-1]) total++;
+
+                    // inferior direita
+                    if(linha < m.linhas - 1 && coluna < m.colunas - 1 && m.the_array[linha+1][coluna+1]) total++;
+
+                    // inferior esquerda
+                    if(linha < m.linhas - 1 && coluna > 0 && m.the_array[linha+1][coluna-1]) total++;
+
+                    return total;
+                }
+
+                m.aplica_regra = function(linha, coluna) {
+                    var vizinhos = m.get_total_vizinhos(linha, coluna);
+                    var vivo = m.the_array[linha][coluna]
+
+                    // Qualquer célula viva com menos de dois vizinhos vivos morre de solidão.
+                    if(vivo && vizinhos < 2) return false;
+
+                    // Qualquer célula viva com mais de três vizinhos vivos morre de superpopulação.
+                    if(vivo && vizinhos > 3) return false;
+
+                    // Qualquer célula morta com exatamente três vizinhos vivos se torna uma célula viva.
+                    if(!vivo && vizinhos == 3) return true;
+
+                    // Qualquer célula viva com dois ou três vizinhos vivos continua no mesmo estado para a próxima geração.
+                    if(vivo) return true;
+
+                    return false;
+                }
+
+                return m;
+            });
+
+            myapp.controller('MyCtrl', function ($scope, AngulifeJS){
+                $scope.m = AngulifeJS;
+                $scope.m.makeArray();
+            });
+        </script>
+    </head>
+
+    <body ng-app="myapp" ng-controller="MyCtrl">
+
+        <div style="margin-left:15px">
+
+            <div class="row-fluid">
+                <h2>AngulifeJS (passos: {[{ m.passos }]})</h2>
+            </div>
+
+            <div class="row-fluid">
+                Linhas: <input type="text" ng-model="m.linhas">
+                Colunas: <input type="text" ng-model="m.colunas">
+                Velocidade: <input type="text" ng-model="m.velocidade">
+            </div>
+
+            <div class="row-fluid">
+                <button ng-click="m.recomeca()" class="btn btn-small btn-success">Recomeça</button>
+                <button ng-click="m.passo()" class="btn btn-small btn-primary">Passo</button>
+                <button class="btn btn-small btn-primary">Vai</button>
+                <button class="btn btn-small btn-danger">Pára</button>
+                <button ng-click="m.mostra_dicas()" class="btn btn-small">Regras</button>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <table border="1" style="margin-top:5px">
+                        <tr height="15px" ng-repeat="linha in m.the_array">
+                            <td
+                                ng-click="m.toggle_boolean($parent.$index, $index)"
+                                width='15px'
+                                ng-repeat="coluna in linha track by $index"
+                                ng-class="m.rowClass(coluna)">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div ng-show="m.dicas" class="span6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Regras do AngulifeJS</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div style="margin-bottom:10px">1. Qualquer célula viva com menos de dois vizinhos vivos morre de solidão.</div>
+                            <div style="margin-bottom:10px">2. Qualquer célula viva com mais de três vizinhos vivos morre de superpopulação.</div>
+                            <div style="margin-bottom:10px">3. Qualquer célula morta com exatamente três vizinhos vivos se torna uma célula viva.</div>
+                            <div style="margin-bottom:10px">4. Qualquer célula viva com dois ou três vizinhos vivos continua no mesmo estado para a próxima geração.</div>
+                            <div style="margin-bottom:10px">Todo nascimento e morte ocorre simultaneamente. Leia mais em Game of Life na <a href="http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Wikipedia</a>.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
