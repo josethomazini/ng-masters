@@ -74,6 +74,7 @@
 
                 m.vai = function(){
                     m.automatico = true;
+                    setTimeout(tick, 0);
                 }
 
                 m.para = function(){
@@ -139,7 +140,16 @@
             myapp.controller('MyCtrl', function ($scope, AngulifeJS){
                 $scope.m = AngulifeJS;
                 $scope.m.makeArray();
+
+                tick = function(){
+                if($scope.m.automatico){
+                    $scope.m.passo();
+                    $scope.$digest();
+                    setTimeout(tick, 1000 * $scope.m.velocidade);
+                }
+            }
             });
+
         </script>
     </head>
 
@@ -160,8 +170,8 @@
             <div class="row-fluid">
                 <button ng-click="m.recomeca()" class="btn btn-small btn-success">Recomeça</button>
                 <button ng-click="m.passo()" class="btn btn-small btn-primary">Passo</button>
-                <button class="btn btn-small btn-primary">Vai</button>
-                <button class="btn btn-small btn-danger">Pára</button>
+                <button ng-click="m.vai()" class="btn btn-small btn-primary">Vai</button>
+                <button ng-click="m.para()" class="btn btn-small btn-danger">Pára</button>
                 <button ng-click="m.mostra_dicas()" class="btn btn-small">Regras</button>
             </div>
 
